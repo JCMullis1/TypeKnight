@@ -1,0 +1,31 @@
+# depslib dependency file v1.0
+1683491880 source:c:\users\jonca\onedrive\desktop\hotdogjons_folder\project_ideas\typeknight\src\map_engine.cpp
+
+1683491766 source:c:\users\jonca\onedrive\desktop\hotdogjons_folder\project_ideas\typeknight\src\typing.cpp
+
+1687963684 source:c:\users\jonca\onedrive\desktop\hotdogjons_folder\project_ideas\typeknight\src\d_structs.cpp
+	<iostream>
+	<vector>
+	"d_structs.h"
+
+1687963626 c:\users\jonca\onedrive\desktop\hotdogjons_folder\project_ideas\typeknight\src\d_structs.h
+
+1687966050 source:c:\users\jonca\onedrive\desktop\hotdogjons_folder\project_ideas\typeknight\src\rpg.cpp
+	<iostream>
+	<fstream>
+	"rpg.h"
+
+1687965618 c:\users\jonca\onedrive\desktop\hotdogjons_folder\project_ideas\typeknight\src\rpg.h
+	<vector>
+	<fstream>
+
+1687966203 source:c:\users\jonca\onedrive\desktop\hotdogjons_folder\project_ideas\typeknight\src\main.cpp
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+	<SDL_ttf.h>
+	<fstream>
+	"rpg.h"
+	<iostream>
+

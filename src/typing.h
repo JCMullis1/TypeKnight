@@ -1,0 +1,6 @@
+#ifndef TYPING_H_INCLUDED
+#define TYPING_H_INCLUDED
+
+
+
+#endif // TYPING_H_INCLUDED
