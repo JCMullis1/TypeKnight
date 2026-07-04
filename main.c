@@ -1,8 +1,12 @@
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <SDL2/SDL.h>
 #include <stdbool.h>
+#include "tkSDL.h"
+
 
 int randword(int arrsize) {
 	int result = (rand() % arrsize);
@@ -22,30 +26,24 @@ void typingtest(int strlen, char A[][strlen], size_t size) {
 }
 
 int main(int argc, char *argv[]) {
-	// NEED** Condition to switch game to headless
-	// mode in the case of no graphics driver
+	struct Game game = {
+		.window = NULL,
+		.renderer = NULL,
+		.background = NULL,
+		.text_font = NULL,
+		.text_color = {255, 255, 255, 255},
+		.text_rect = {0, 0, 0, 0},
+		.text_image = NULL,
+	};
 
-//	if ( SDL_Init(SDL_INIT_VIDEO ) != 0) {
-//		SDL_Log("Unable to initialize SDL Video: %s", SDL_GetError());
-//		printf("Attempting headless mode...\n");
-//		putenv("SDL_VIDEODIRVER=dummy");
-//		if ( SDL_Init(SDL_INIT_VIDEO ) != 0) {
-//			SDL_Log("Unable to run in initialize in headless mode: %s", SDL_GetError());
-//			return 1;
-//		}	
-//	} 
-
-	putenv("SDL_VIDEODRIVER=dummy");
-	if ( SDL_Init(SDL_INIT_VIDEO ) != 0) {
-		SDL_Log("Couldn't run in headless mode: %s", SDL_GetError());
-		return 1;
+	if (sdlinit(&game)) {
+		sdlclose(&game, EXIT_FAILURE);
 	}	
-
-	if ( SDL_Init( SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER ) != 0) {
-		SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
-		return 1;
-	}
-	srand(time(NULL));
+	
+	if (load_media(&game)) {
+		sdlclose(&game, EXIT_FAILURE);
+	}	
+	
 	char word[][7] = {
 		{"the"},
 		{"quick"},
@@ -61,22 +59,33 @@ int main(int argc, char *argv[]) {
 
 
 // 	typingtest(sizeof(*word), word, sizeof(word)/sizeof(*word));
+
 	bool running = true;
 	SDL_Event event;	
+	
+	SDL_RenderClear(game.renderer);
+	SDL_RenderPresent(game.renderer);	
+	
 
 	// main game loop
-	while (running) {
+	while (running) {		
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 				case SDL_QUIT:
-					running = false;	
+					running = false;
 					break;
 				case SDL_KEYDOWN:
 					printf("a key has been pressed\n");
 					switch (event.key.keysym.sym) {
 						case SDLK_ESCAPE:
-							running = false;
+							running = false;	
 							break;	
+						case SDLK_t:
+							typingtest(
+								sizeof(*word),
+								word,
+							  	sizeof(word)/sizeof(*word)
+							);
 						default:
 							break;
 					}		
@@ -84,8 +93,17 @@ int main(int argc, char *argv[]) {
 					break;
 			}	
 		}
-	}
+		SDL_RenderClear(game.renderer);  		
 
+		//SDL_RenderCopy(game.renderer, game.background, NULL, NULL);
+
+		SDL_RenderCopy(game.renderer, game.text_image, NULL, &game.text_rect);
+
+		SDL_RenderPresent(game.renderer);
+
+		//SDL_Delay(16);
+	}
+	sdlclose(&game, EXIT_SUCCESS);
 	return 0;
 
 }
