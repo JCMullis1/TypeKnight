@@ -1,0 +1,9 @@
+# Swap files
+*.swp
+*.swo
+*.swn
+*.sw?
+.*.sw?
+
+# Backup files
+*~
